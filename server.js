@@ -1,30 +1,45 @@
 'use strict';
 
-var Hapi = require('hapi');
+const Hapi = require('hapi');
 //Internal Dependencies
-var Config = require('./Config');
-var Good = require('good');
-var Routes = require('./Routes');
-// var mongoOp = require("./Models");
+const Config = require('./Config');
+const Good = require('good');
+const Routes = require('./Routes');
+const Plugins = require('./Plugins/index.js');
+// const mongoOp = require("./Models");
 
 // create server with a host and port
-var server = new Hapi.Server();
-server.connection({
-	host: 'localhost',
-	port: 8000
+const server = new Hapi.Server();
+// server.connection({
+// 	host: 'localhost',
+// 	port: 8000
+// });
+
+server.connection(Config.Base.connection);
+
+server.register(Plugins, function(error) {
+    error?(server.log(['error'], 'Plugins loading error')):(server.log(['start'], 'Plugins loaded'));
 });
 
+Routes.forEach(function(route) {
+    server.route(route);
+});
 // Default Route
 server.route({
     method: 'GET',
-    path: '/',
-    handler: function(request, reply){
-        res.view('index');
+    path: '/hello',
+    handler: function(request, reply) {
+        return reply('Hello World!!');
+    },
+    config: {
+        tags: ['api'],
+        description: 'Hello World',
+        notes: 'Get Greeted'
     }
 })
 
 //API Routes
-server.route(Routes);
+//server.route(Routes);
 
 // Add the route
 // server.route({

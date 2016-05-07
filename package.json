@@ -15,6 +15,11 @@
     "good": "^6.6.0",
     "good-console": "^5.3.1",
     "hapi": "^13.2.2",
-    "mongoose": "^4.4.12"
+    "hapi-swagger": "^5.0.1",
+    "inert": "^3.2.0",
+    "joi": "^8.0.5",
+    "jsonwebtoken": "^6.2.0",
+    "mongoose": "^4.4.12",
+    "vision": "^4.1.0"
   }
 }

@@ -1,3 +1,4 @@
-module.exports = {
-	UserController : require('./UserController')
-};
+const user_controller = require('./UserController.js');
+
+var all = user_controller;
+module.exports = all;
