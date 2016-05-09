@@ -33,7 +33,6 @@ var user_controller = {
         return reply(request.payload);
     },
     user_list: function(request, reply){
-        
         Users.find({}, function (error, data) {
             if (error) {
                 reply({
@@ -49,6 +48,41 @@ var user_controller = {
                 });
             }
         });
+    },
+    get_user: function(request, reply) {
+        Users.find({_id: request.params.id}, function(error, data) {
+            if (error) {
+                reply({
+                    statusCode: 503,
+                    message: 'Fail to get user info',
+                    data: error
+                })
+            } else{
+                reply({
+                    statusCode: '200',
+                    message: 'User fetched succesfully',
+                    data: data
+                })
+            }
+        })
+    },
+    change_password: function(request, reply){
+        Users.findOneAndUpdate({'_id': request.params.id}, {$set: {password: request.payload.password}}, function (error, data) {
+            if (error) {
+                reply({
+                    statusCode: 503,
+                    message: 'Failed to get data',
+                    data: error
+                })
+            }
+            else{
+                reply({
+                    statusCode: 200,
+                    message: 'password updated succesfully',
+                    data: data
+                })   
+            }
+        })
     }
 }
 
